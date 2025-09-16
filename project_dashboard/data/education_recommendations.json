@@ -1,0 +1,4 @@
+[
+    { "relatedStrength": "#데이터분석", "title": "[강의] 실무자를 위한 고급 데이터 분석", "description": "Pandas와 Scikit-learn을 활용한 실전 데이터 분석 및 시각화 스킬을 향상시키세요.", "imageUrl": "https://i.imgur.com/m8yxtG2.png" },
+    { "relatedStrength": "#백엔드설계", "title": "[교육] MSA 기반 대용량 시스템 설계", "description": "확장 가능하고 안정적인 백엔드 시스템을 위한 마이크로서비스 아키텍처 설계 교육입니다.", "imageUrl": "https://i.imgur.com/2lF3Y3b.png" }
+]

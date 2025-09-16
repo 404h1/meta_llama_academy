@@ -1,0 +1,203 @@
+{% extends "layout.html" %}
+
+{% block title %}MY PAGE - {{ user.userName }}{% endblock %}
+
+{% block content %}
+
+<section id="todo-section" class="content-section">
+    <div class="section-header">
+        <h2>TO DO</h2>
+        <p>{{ user.userName }}님이 오늘 처리해야 할 업무와 일정입니다.</p>
+    </div>
+
+    <h3>PROJECTS</h3>
+    <div class="project-grid">
+        {% for project in projects %}
+        <a href="{{ url_for('project_detail', project_code=project.projectCode) }}" class="project-card-link">
+            <div class="project-card">
+                <h4>{{ project.projectCode }}</h4>
+                <p>{{ project.projectName }}</p>
+                <div class="my-tasks">
+                    <h4>My Tasks</h4>
+                    <ul>
+                        {% for task in project.my_tasks %}<li>- {{ task }}</li>{% else %}<li>배정된 태스크가 없습니다.</li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <div class="schedule-section">
+        <h3>{{ user.userName }}님의 {{ today_date.strftime('%-m월 %-d일') }} 일정</h3>
+        <div class="schedule-container">
+            <div class="schedule-group">
+                <div class="schedule-period">오전</div>
+                <div class="schedule-list">
+                    {% for item in today_schedule['오전']|sort(attribute='time') %}<div class="schedule-item"><span class="schedule-time">{{ item.time }}</span><span class="schedule-code">{{ item.projectCode }}</span><span class="schedule-desc">{{ item.description }}</span></div>{% else %}<div class="schedule-item-empty">오전 일정이 없습니다.</div>{% endfor %}
+                </div>
+            </div>
+            <div class="schedule-group">
+                <div class="schedule-period">오후</div>
+                <div class="schedule-list">
+                    {% for item in today_schedule['오후']|sort(attribute='time') %}<div class="schedule-item"><span class="schedule-time">{{ item.time }}</span><span class="schedule-code">{{ item.projectCode }}</span><span class="schedule-desc">{{ item.description }}</span></div>{% else %}<div class="schedule-item-empty">오후 일정이 없습니다.</div>{% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="add-schedule-area"><button class="btn btn-outline">+ 일정 추가</button></div>
+    </div>
+</section>
+
+<section id="done-section" class="content-section">
+    <div class="section-header">
+        <h2>DONE</h2>
+        <p>완료된 업무를 관리하고 리포트를 확인합니다.</p>
+    </div>
+    
+    <div class="sub-section">
+        <div class="done-header">
+            <h3>퇴근 보고</h3>
+            <div class="view-toggle">
+                <button id="calendarViewBtn" class="active">Calendar View</button>
+                <button id="boxViewBtn">Box View</button>
+            </div>
+        </div>
+        <div id="calendarView" class="report-view active">
+            <div class="calendar-view-wrapper">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <h4>{{ current_year }}년 {{ current_month }}월</h4>
+                    </div>
+                    <div class="calendar-grid">
+                        {% for weekday in ['월', '화', '수', '목', '금', '토', '일'] %}<div class="calendar-weekday">{{ weekday }}</div>{% endfor %}
+                        {% for week in calendar_weeks %}
+                            {% for day in week %}
+                                {% if day == 0 %}<div class="calendar-day not-in-month"></div>
+                                {% else %}
+                                    {% set date_str = '%d-%02d-%02d'|format(current_year, current_month, day) %}
+                                    <div class="calendar-day {{ 'today' if day == today_day }} {{ 'has-report' if date_str in reported_dates }}" data-date="{{ date_str }}">
+                                        <span>{{ day }}</span>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="calendar-selected-day"></div>
+            </div>
+        </div>
+        <div id="boxView" class="report-view">
+            <div class="box-view-container">
+                 {% for report in daily_reports|sort(attribute='date', reverse=True) %}
+                 {% set day_of_week = ['월', '화', '수', '목', '금', '토', '일'][datetime.strptime(report.date, '%Y-%m-%d').weekday()] %}
+                 <div class="report-box editable" data-report-id="{{ report.reportId }}">
+                    <h5>{{ report.date.split('-')[1] }}/{{ report.date.split('-')[2] }} <span class="day-of-week">({{ day_of_week }})</span></h5>
+                    <div class="report-box-content">
+                        {%- for task_item in report.tasks -%}
+                            <p><b>{{ report.projectCode }}</b> - {{ task_item.task.strip() }}</p>
+                        {%- endfor -%}
+                    </div>
+                 </div>
+                 {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="sub-section">
+        <h3>DAILY</h3>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead><tr><th>날짜</th><th>프로젝트</th><th>금일 업무</th></tr></thead>
+                <tbody>
+                    {% for report in daily_reports|sort(attribute='date', reverse=True) %}
+                        {% for task_item in report.tasks %}
+                        <tr>
+                            <td>{{ report.date if loop.first else '' }}</td>
+                            <td>{{ report.projectCode if loop.first else '' }}</td>
+                            <td>{{ task_item.task }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="sub-section">
+        <h3>WEEKLY ({{ weekly_report.week }})</h3>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead><tr><th>프로젝트</th><th class="wide">주간 요약</th><th style="width: 20%;">진척도</th></tr></thead>
+                <tbody>
+                    {% for p_report in weekly_report.projects %}
+                    <tr>
+                        <td>{{ p_report.projectName }}</td>
+                        <td>{{ p_report.summary }}</td>
+                        <td><div class="progress-bar"><div class="progress" style="width: {{ p_report.progress }}%;"></div></div></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="sub-section">
+        <h3>MONTHLY ({{ monthly_report.month }})</h3>
+        <div class="monthly-layout">
+            <div class="monthly-summary">
+                <p>"{{ user.userName }}님은 {% for s in user.strengths %}<span class="highlight">{{ s }}</span>{% endfor %} 에 강점이 있어요"</p>
+                <p class="summary-text">{{ monthly_report.summaryText }}</p>
+            </div>
+            <div class="monthly-chart"><canvas id="monthlyChart" data-chart='{{ monthly_report.chartData | tojson }}'></canvas></div>
+        </div>
+    </div>
+
+    <div class="sub-section">
+        <h3>추천 교육</h3>
+        <div class="education-grid">
+            {% for edu in education %}
+            <div class="education-card">
+                <img src="{{ edu.imageUrl }}" alt="{{ edu.title }}">
+                <div class="education-card-content">
+                    <h4>{{ edu.title }}</h4>
+                    <p>{{ edu.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<div id="scheduleModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>새 일정 추가</h3>
+            <button id="closeScheduleModal" class="modal-close">&times;</button>
+        </div>
+        <form id="addScheduleForm">
+            <div class="form-group"><label>구분</label><select name="period" required><option value="오전">오전</option><option value="오후">오후</option></select></div>
+            <div class="form-group"><label>시간</label><input type="time" name="time" required></div>
+            <div class="form-group"><label>프로젝트 코드 (선택)</label><input type="text" name="projectCode" placeholder="PJT-2025-XXX"></div>
+            <div class="form-group"><label>내용</label><input type="text" name="description" placeholder="일정 내용을 입력하세요." required></div>
+            <div class="modal-footer"><button type="submit" class="btn btn-primary">저장하기</button></div>
+        </form>
+    </div>
+</div>
+<div id="editReportModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>퇴근 보고 수정</h3>
+            <button id="closeEditReportModal" class="modal-close">&times;</button>
+        </div>
+        <form id="editReportForm">
+            <input type="hidden" id="editReportId" name="reportId">
+            <textarea id="editReportTasks" name="tasks" placeholder="업무 내용을 입력하세요. 각 줄을 다른 업무로 인식합니다."></textarea>
+            <div class="modal-footer"><button type="submit" class="btn btn-primary">수정 완료</button></div>
+        </form>
+    </div>
+</div>
+
+<script id="daily-reports-data" type="application/json">
+    {{ daily_reports | tojson }}
+</script>
+{% endblock %}

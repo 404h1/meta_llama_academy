@@ -1,0 +1,24 @@
+[
+  {
+    "projectCode": "PJT-2025-091",
+    "projectName": "고객 피드백 분석 자동화",
+    "description": "고객센터에 인입되는 피드백을 AI를 통해 자동 분석하고 리포팅하는 시스템을 구축합니다.",
+    "tasks": [
+      {"taskName": "시장 조사", "assignedTo": ["메타라마", "김연구"], "status": "Completed"},
+      {"taskName": "데이터 분석", "assignedTo": ["메타라마"], "status": "In Progress"},
+      {"taskName": "백엔드 개발", "assignedTo": ["이개발"], "status": "Not Started"},
+      {"taskName": "프론트엔드 개발", "assignedTo": ["박디자인"], "status": "Not Started"}
+    ]
+  },
+  {
+    "projectCode": "PJT-2025-092",
+    "projectName": "AI 기반 문서 요약 서비스",
+    "description": "업무 문서를 LLM을 활용하여 핵심 내용을 요약하고 관련 문서를 추천하는 서비스를 개발합니다.",
+    "tasks": [
+      {"taskName": "요구사항 정의", "assignedTo": ["메타라마"], "status": "Completed"},
+      {"taskName": "LLM 모델 선정", "assignedTo": ["메타라마", "최모델"], "status": "In Progress"},
+      {"taskName": "API 개발", "assignedTo": ["이개발"], "status": "In Progress"},
+      {"taskName": "UI/UX 디자인", "assignedTo": ["박디자인"], "status": "Completed"}
+    ]
+  }
+]

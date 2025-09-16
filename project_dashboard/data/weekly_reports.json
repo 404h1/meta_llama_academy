@@ -1,0 +1,10 @@
+[
+  {
+    "userId": "metarama",
+    "week": "2025-09-W3",
+    "projects": [
+      {"projectCode": "PJT-2025-091", "projectName": "고객 피드백 분석 자동화", "summary": "시장 조사 완료 및 데이터 분석 단계 착수. 주요 피드백 카테고리 분류 및 키워드 추출 진행 중.", "progress": 30},
+      {"projectCode": "PJT-2025-092", "projectName": "AI 기반 문서 요약 서비스", "summary": "주요 LLM 모델 성능 비교 테스트 완료 및 최종 모델 선정. API 명세 정의 시작.", "progress": 45}
+    ]
+  }
+]

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}Project - {{ project.projectName }}{% endblock %}
+
+{% block content %}
+<div class="project-detail-header">
+    <p>{{ project.projectCode }}</p>
+    <h1>{{ project.projectName }}</h1>
+    <p>{{ project.description }}</p>
+</div>
+<section class="section">
+    <h2 class="section-title">업무 목록 및 담당자</h2>
+    <table class="data-table">
+        <thead>
+            <tr><th>업무</th><th>담당자</th><th>상태</th></tr>
+        </thead>
+        <tbody>
+            {% for task in project.tasks %}
+            <tr>
+                <td>{{ task.taskName }}</td>
+                <td>{{ task.assignedTo | join(', ') }}</td>
+                <td>{{ task.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

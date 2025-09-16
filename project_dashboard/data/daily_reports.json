@@ -1,0 +1,15 @@
+[
+  { "reportId": "dr-0901", "userId": "metarama", "date": "2025-09-01", "projectCode": "PJT-2025-091", "tasks": [{"task": "프로젝트 킥오프 회의 준비", "status": "Completed"}]},
+  { "reportId": "dr-0902", "userId": "metarama", "date": "2025-09-02", "projectCode": "PJT-2025-091", "tasks": [{"task": "요구사항 정의서 초안 작성", "status": "In Progress"}, {"task": "관련 기술 리서치", "status": "In Progress"}]},
+  { "reportId": "dr-0903", "userId": "metarama", "date": "2025-09-03", "projectCode": "PJT-2025-092", "tasks": [{"task": "LLM 모델 후보군 리스트업", "status": "Completed"}]},
+  { "reportId": "dr-0904", "userId": "metarama", "date": "2025-09-04", "projectCode": "PJT-2025-092", "tasks": [{"task": "후보 모델별 성능 벤치마킹 계획 수립", "status": "In Progress"}]},
+  { "reportId": "dr-0905", "userId": "metarama", "date": "2025-09-05", "projectCode": "개인", "tasks": [{"task": "주간 업무 정리 및 보고", "status": "Completed"}]},
+  { "reportId": "dr-0908", "userId": "metarama", "date": "2025-09-08", "projectCode": "PJT-2025-091", "tasks": [{"task": "요구사항 정의서 리뷰 및 수정", "status": "Completed"}]},
+  { "reportId": "dr-0909", "userId": "metarama", "date": "2025-09-09", "projectCode": "PJT-2025-091", "tasks": [{"task": "피드백 데이터 샘플 수집 및 분석", "status": "In Progress"}]},
+  { "reportId": "dr-0910", "userId": "metarama", "date": "2025-09-10", "projectCode": "PJT-2025-092", "tasks": [{"task": "KoBERT 모델 기반 PoC 진행", "status": "In Progress"}]},
+  { "reportId": "dr-0911", "userId": "metarama", "date": "2025-09-11", "projectCode": "PJT-2025-092", "tasks": [{"task": "PoC 결과 분석 및 중간 보고", "status": "Completed"}]},
+  { "reportId": "dr-0912", "userId": "metarama", "date": "2025-09-12", "projectCode": "개인", "tasks": [{"task": "주간 업무 정리 및 보고", "status": "Completed"}]},
+  { "reportId": "dr-0915", "userId": "metarama", "date": "2025-09-15", "projectCode": "PJT-2025-091", "tasks": [{"task": "유사 서비스 시장 조사 및 기능 비교 분석", "status": "Completed"}]},
+  { "reportId": "dr-0916", "userId": "metarama", "date": "2025-09-16", "projectCode": "PJT-2025-091", "tasks": [{"task": "피드백 데이터 EDA 수행", "status": "In Progress"}]},
+  { "reportId": "dr-0917", "userId": "metarama", "date": "2025-09-17", "projectCode": "PJT-2025-092", "tasks": [{"task": "Solar LLM 모델 기반 PoC 진행", "status": "In Progress"}]}
+]
